@@ -147,21 +147,20 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message = message.replace(" ", "")
-    key = key * (len(message) // len(key)) + key[:len(message) % len(key)]
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    alphabet_length = len(alphabet)
-    message_ciphered = ""
+    message = message.upper()
+    key = key.upper()
+    key_extended = key * (len(message) // len(key)) + key[:len(message) % len(key)]
+    ciphered_message = ''
     for i in range(len(message)):
-        letter = message[i]
-        letter_uppercase = letter.isupper()
-        letter_index = alphabet.index(letter.upper())
-        key_letter = key[i]
-        key_shift = alphabet.index(key_letter.upper()) 
-        shifted_index = (letter_index + key_shift) % alphabet_length
-        shifted_letter = alphabet[shifted_index]
-        message_ciphered += shifted_letter if letter_uppercase else shifted_letter.lower()
-    return message_ciphered
+        if message[i] != ' ':
+            message_index = ord(message[i]) - ord('A')
+            key_index = ord(key_extended[i]) - ord('A')
+            shifted_index = (message_index + key_index) % 26
+            shifted_letter = chr(shifted_index + ord('A'))
+            ciphered_message += shifted_letter
+        else:
+            ciphered_message += ' '
+    return ciphered_message
 
 def scytale_cipher(message, shift):
     '''Scytale Cipher.
