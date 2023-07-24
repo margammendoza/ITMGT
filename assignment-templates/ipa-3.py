@@ -122,10 +122,14 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    current_stop = first_stop
-    time = 0
-    while current_stop != second_stop:
-        next_stop = route_map[current_stop]['next_stop']
-        time += route_map[current_stop]['legs'][(current_stop, next_stop)]['travel_time_mins']
-        current_stop = next_stop
+    new_route_map = []
+    for pair, value in route_map.items(): 
+        new_route_map.append( ( pair[0], pair[1], value['travel_time_mins'] ) )
+    first_leg = next(leg for leg in new_route_map if leg[0]==first_stop)
+    next_stop = first_leg[1]
+    time = first_leg[2]
+    while next_stop!=second_stop:
+        leg = next(leg for leg in new_route_map if leg[0]==next_stop)
+        time += leg[2]
+        next_stop = leg[1]
     return time
